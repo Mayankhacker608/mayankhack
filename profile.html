@@ -5,12 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raksha - Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
   </head>
   <body class="bg-pink-50 min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-pink-600 text-white p-4 flex justify-between">
+    <!-- ✅ Navbar -->
+    <nav
+      class="bg-pink-600 text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-md"
+    >
       <h1 class="font-bold text-xl">🚨 Raksha</h1>
-      <ul class="flex space-x-6">
+      <ul class="hidden md:flex space-x-6 font-medium">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="profile.html" class="nav-link">Profile</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="login.html" class="nav-link">Login</a></li>
+      </ul>
+      <!-- Mobile Menu -->
+      <button id="menuBtn" class="md:hidden">
+        <i data-feather="menu"></i>
+      </button>
+      <ul
+        id="mobileMenu"
+        class="hidden absolute top-16 left-0 w-full bg-pink-700 text-white flex-col space-y-4 p-4 md:hidden"
+      >
         <li><a href="index.html">Home</a></li>
         <li><a href="profile.html">Profile</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
@@ -18,88 +34,241 @@
       </ul>
     </nav>
 
-    <!-- Profile Form -->
-    <main class="flex-1 flex items-center justify-center">
-      <form
-        id="profileForm"
-        class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-lg space-y-3"
+    <!-- ✅ Profile Section -->
+    <main class="flex-1 px-6 py-8 max-w-5xl mx-auto space-y-8">
+      <!-- User Info Card -->
+      <section
+        class="bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row items-center justify-between"
       >
-        <h2 class="text-xl font-bold mb-4 text-center">👩 Profile Setup</h2>
-        <input
-          type="text"
-          id="fullName"
-          placeholder="Full Name"
-          class="w-full border p-2 rounded"
-          required
-        />
-        <input
-          type="text"
-          id="fatherName"
-          placeholder="Father's Name"
-          class="w-full border p-2 rounded"
-          required
-        />
-        <input
-          type="text"
-          id="bloodGroup"
-          placeholder="Blood Group (e.g. O+)"
-          class="w-full border p-2 rounded"
-          required
-        />
-        <textarea
-          id="address"
-          placeholder="Full Address"
-          class="w-full border p-2 rounded"
-          required
-        ></textarea>
-
-        <h3 class="font-bold">Emergency Contacts</h3>
-        <input
-          type="text"
-          id="contact1"
-          placeholder="Contact 1"
-          class="w-full border p-2 rounded"
-          required
-        />
-        <input
-          type="text"
-          id="contact2"
-          placeholder="Contact 2"
-          class="w-full border p-2 rounded"
-        />
-        <input
-          type="text"
-          id="contact3"
-          placeholder="Contact 3"
-          class="w-full border p-2 rounded"
-        />
-
+        <div class="flex items-center space-x-4">
+          <img
+            id="profilePhoto"
+            src="https://via.placeholder.com/100"
+            alt="Profile Photo"
+            class="w-24 h-24 rounded-full border-4 border-pink-300 object-cover"
+          />
+          <div>
+            <h2 id="userName" class="text-2xl font-bold text-pink-700">
+              Demo User
+            </h2>
+            <p id="userEmail" class="text-gray-600">demo@email.com</p>
+            <p id="userPhone" class="text-gray-600">+91 XXXXXXXX</p>
+          </div>
+        </div>
         <button
-          type="submit"
-          class="bg-green-600 text-white w-full py-2 rounded"
+          id="editProfileBtn"
+          class="mt-4 md:mt-0 bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700"
         >
-          Save Profile
+          Edit
         </button>
-      </form>
+      </section>
+
+      <!-- Emergency Contacts -->
+      <section class="bg-white rounded-2xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-pink-700 mb-4">
+          📞 Emergency Contacts
+        </h3>
+        <div id="contactList" class="space-y-3"></div>
+        <button
+          id="addContactBtn"
+          class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          ➕ Add Contact
+        </button>
+      </section>
+
+      <!-- Location & Preferences -->
+      <section class="bg-white rounded-2xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-pink-700 mb-4">
+          📍 Location & Preferences
+        </h3>
+        <div id="map" class="w-full h-64 rounded-lg bg-gray-200"></div>
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input
+            id="homeAddress"
+            placeholder="🏠 Home Address"
+            class="border p-2 rounded"
+          />
+          <input
+            id="workAddress"
+            placeholder="💼 Work Address"
+            class="border p-2 rounded"
+          />
+          <input
+            id="safeZone"
+            placeholder="🛡️ Safe Zone"
+            class="border p-2 rounded"
+          />
+        </div>
+        <label class="flex items-center mt-4 space-x-2">
+          <input type="checkbox" id="autoShare" class="w-5 h-5" />
+          <span>Auto-share location on SOS</span>
+        </label>
+      </section>
+
+      <!-- SOS Settings -->
+      <section class="bg-white rounded-2xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-pink-700 mb-4">🚨 SOS Settings</h3>
+        <div class="space-y-3">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="sosSms" class="w-5 h-5" />
+            <span>Send SMS</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="sosEmail" class="w-5 h-5" />
+            <span>Send Email</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="sosApp" class="w-5 h-5" />
+            <span>App Notification</span>
+          </label>
+          <textarea
+            id="sosMessage"
+            placeholder="Custom SOS message..."
+            class="w-full border p-2 rounded"
+          ></textarea>
+        </div>
+      </section>
+
+      <button
+        id="saveProfile"
+        class="w-full bg-pink-600 text-white py-3 rounded-lg hover:bg-pink-700"
+      >
+        💾 Save Profile
+      </button>
     </main>
 
+    <!-- ✅ Edit Modal -->
+    <div
+      id="editModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+    >
+      <div class="bg-white rounded-xl p-6 w-full max-w-md space-y-4">
+        <h3 class="text-lg font-bold text-pink-700">Edit Profile</h3>
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/*"
+          class="w-full border p-2 rounded"
+        />
+        <input
+          type="text"
+          id="editName"
+          placeholder="Full Name"
+          class="w-full border p-2 rounded"
+        />
+        <input
+          type="email"
+          id="editEmail"
+          placeholder="Email"
+          class="w-full border p-2 rounded"
+        />
+        <input
+          type="text"
+          id="editPhone"
+          placeholder="Phone Number"
+          class="w-full border p-2 rounded"
+        />
+        <div class="flex justify-end space-x-3">
+          <button
+            id="closeModal"
+            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            id="saveModal"
+            class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Scripts -->
     <script>
-      document.getElementById("profileForm").addEventListener("submit", (e) => {
-        e.preventDefault();
+      feather.replace();
+
+      // Navbar Active Link
+      const links = document.querySelectorAll(".nav-link");
+      links.forEach((link) => {
+        if (link.href === window.location.href) {
+          link.classList.add("text-yellow-300", "font-bold", "underline");
+        }
+      });
+
+      // Mobile menu
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Modal logic
+      const modal = document.getElementById("editModal");
+      const editBtn = document.getElementById("editProfileBtn");
+      const closeBtn = document.getElementById("closeModal");
+      const saveBtn = document.getElementById("saveModal");
+
+      editBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+      closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
+      saveBtn.addEventListener("click", () => {
+        document.getElementById("userName").textContent =
+          document.getElementById("editName").value;
+        document.getElementById("userEmail").textContent =
+          document.getElementById("editEmail").value;
+        document.getElementById("userPhone").textContent =
+          document.getElementById("editPhone").value;
+        const file = document.getElementById("photoInput").files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            document.getElementById("profilePhoto").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+        modal.classList.add("hidden");
+      });
+
+      // Emergency Contacts
+      const contactList = document.getElementById("contactList");
+      const addContactBtn = document.getElementById("addContactBtn");
+      addContactBtn.addEventListener("click", () => {
+        const div = document.createElement("div");
+        div.className =
+          "flex justify-between items-center border p-2 rounded-lg";
+        div.innerHTML = `
+          <input type="text" placeholder="Name & Phone" class="flex-1 border-none focus:ring-0">
+          <button class="text-red-600 ml-2 removeBtn">🗑</button>
+          <a href="#" class="text-green-600 ml-2">📞</a>
+        `;
+        contactList.appendChild(div);
+
+        div.querySelector(".removeBtn").addEventListener("click", () => {
+          div.remove();
+        });
+      });
+
+      // Save Profile
+      document.getElementById("saveProfile").addEventListener("click", () => {
         const profile = {
-          fullName: document.getElementById("fullName").value,
-          fatherName: document.getElementById("fatherName").value,
-          bloodGroup: document.getElementById("bloodGroup").value,
-          address: document.getElementById("address").value,
-          contacts: [
-            document.getElementById("contact1").value,
-            document.getElementById("contact2").value,
-            document.getElementById("contact3").value,
-          ].filter((c) => c !== ""),
+          name: document.getElementById("userName").textContent,
+          email: document.getElementById("userEmail").textContent,
+          phone: document.getElementById("userPhone").textContent,
+          home: document.getElementById("homeAddress").value,
+          work: document.getElementById("workAddress").value,
+          safeZone: document.getElementById("safeZone").value,
+          autoShare: document.getElementById("autoShare").checked,
+          sos: {
+            sms: document.getElementById("sosSms").checked,
+            email: document.getElementById("sosEmail").checked,
+            app: document.getElementById("sosApp").checked,
+            message: document.getElementById("sosMessage").value,
+          },
         };
         localStorage.setItem("profile", JSON.stringify(profile));
-        alert("✅ Profile saved!");
-        window.location.href = "dashboard.html";
+        alert("✅ Profile Saved!");
       });
     </script>
   </body>

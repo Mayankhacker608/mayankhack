@@ -1,232 +1,1035 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Raksha - Home</title>
+
+    <!-- Tailwind CDN (already used in original) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Feather icons -->
     <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-      /* Slider animation */
-      .slide {
-        display: none;
+      :root {
+        --accent: #ec4899; /* pink-500 */
+        --accent-600: #db2777; /* pink-600 */
+        --muted: #6b7280;
       }
-      .slide.active {
-        display: block;
-        animation: fade 1s ease-in-out;
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
       }
-      @keyframes fade {
-        from {
-          opacity: 0.4;
+
+      /* Hero background & overlay */
+      .hero-bg {
+        background-image: url("https://images.unsplash.com/photo-1533116028128-1d4f5a4f9b1a?q=80&w=2000&auto=format&fit=crop&ixlib=rb-4.0.3&s=0d0f3b10d0c5a7cfb0b2a7c7ef9f4a31");
+        background-size: cover;
+        background-position: center;
+      }
+      .hero-overlay {
+        background: linear-gradient(
+          180deg,
+          rgba(236, 72, 153, 0.45),
+          rgba(255, 255, 255, 0.04)
+        );
+        backdrop-filter: blur(2px);
+      }
+
+      /* Hamburger animated */
+      .hamburger {
+        width: 34px;
+        height: 22px;
+        display: inline-block;
+        position: relative;
+      }
+      .hamburger span {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: white;
+        transition: transform 300ms ease, opacity 300ms ease;
+        border-radius: 3px;
+      }
+      .hamburger span:nth-child(1) {
+        top: 0;
+      }
+      .hamburger span:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .hamburger span:nth-child(3) {
+        bottom: 0;
+      }
+      .hamburger.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      /* Typing cursor (CTA heading) */
+      #typingText::after {
+        content: "|";
+        display: inline-block;
+        margin-left: 6px;
+        animation: blink 1s infinite steps(2, start);
+        color: rgba(255, 255, 255, 0.9);
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
         }
-        to {
-          opacity: 1;
+      }
+
+      /* Slide animation for stories */
+      .story-slide {
+        transition: transform 600ms cubic-bezier(0.2, 0.9, 0.2, 1),
+          opacity 400ms ease;
+        will-change: transform, opacity;
+      }
+
+      /* stat number */
+      .stat-number {
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* small glow on hover for social icons */
+      .social:hover {
+        filter: drop-shadow(0 6px 12px rgba(219, 39, 119, 0.35));
+        transform: translateY(-3px);
+      }
+
+      /* subtle pulsing helpline */
+      .helpline {
+        animation: pulse 2s infinite ease-in-out;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(219, 39, 119, 0.15);
         }
+        70% {
+          transform: scale(1.02);
+          box-shadow: 0 8px 30px rgba(219, 39, 119, 0.09);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(219, 39, 119, 0);
+        }
+      }
+
+      /* small entrance animations */
+      .enter-up {
+        transform: translateY(10px);
+        opacity: 0;
+        transition: transform 500ms cubic-bezier(0.2, 0.9, 0.2, 1),
+          opacity 400ms ease;
+      }
+      .enter-up.show {
+        transform: translateY(0);
+        opacity: 1;
       }
     </style>
   </head>
-  <body class="bg-pink-50 flex flex-col min-h-screen">
-    <!-- ✅ Navbar -->
+
+  <body class="bg-pink-50 text-gray-800 min-h-screen flex flex-col">
+    <!-- NAVBAR -->
     <nav
-      class="bg-pink-600 text-white p-4 flex justify-between items-center relative"
+      class="sticky top-0 z-50 bg-gradient-to-r from-pink-600 to-pink-500 text-white shadow-lg"
+      aria-label="Primary"
     >
-      <h1 class="font-bold text-2xl">🚨 Raksha</h1>
-      <ul class="hidden md:flex space-x-6 font-medium">
-        <li>
-          <a href="index.html" class="hover:text-yellow-300 transition">Home</a>
-        </li>
-        <li>
-          <a href="profile.html" class="hover:text-yellow-300 transition"
-            >Profile</a
-          >
-        </li>
-        <li>
-          <a href="dashboard.html" class="hover:text-yellow-300 transition"
-            >Dashboard</a
-          >
-        </li>
-        <li>
-          <a href="login.html" class="hover:text-yellow-300 transition"
-            >Login</a
-          >
-        </li>
-      </ul>
-      <!-- Mobile Menu Button -->
-      <button id="menuBtn" class="md:hidden">
-        <i data-feather="menu"></i>
-      </button>
-      <!-- Mobile Dropdown -->
-      <ul
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-4">
+            <button
+              id="brandBtn"
+              class="text-xl font-extrabold flex items-center gap-2 outline-none"
+            >
+              <span class="text-2xl">🚨</span>
+              <span class="hidden sm:inline">Raksha</span>
+            </button>
+            <div class="hidden md:flex gap-6 ml-6 font-medium">
+              <a href="#home" class="nav-link hover:underline">Home</a>
+              <a href="#features" class="nav-link hover:underline">Features</a>
+              <a href="#stories" class="nav-link hover:underline">Stories</a>
+              <a href="#nearby" class="nav-link hover:underline">Nearby</a>
+            </div>
+          </div>
+
+          <!-- Desktop CTA + helpline -->
+          <div class="hidden md:flex items-center gap-4">
+            <div
+              class="text-sm text-white/90 helpline px-3 py-2 rounded-md bg-pink-700/50"
+            >
+              Helpline: <strong class="ml-2">+91 112 233 4455</strong>
+            </div>
+            <a
+              href="login.html"
+              class="px-4 py-2 rounded-full bg-white text-pink-600 font-semibold hover:scale-105 transition shadow"
+              >Get Started</a
+            >
+          </div>
+
+          <!-- Mobile buttons -->
+          <div class="md:hidden flex items-center">
+            <button id="menuBtn" aria-label="Toggle menu" class="p-2">
+              <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu (animated) -->
+      <div
         id="mobileMenu"
-        class="hidden absolute top-16 left-0 w-full bg-pink-700 text-white flex-col space-y-4 p-4 md:hidden"
+        class="md:hidden bg-pink-600/80 backdrop-blur-sm transform-gpu scale-y-0 origin-top transition-all duration-300"
       >
-        <li><a href="index.html">Home</a></li>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
+        <div class="px-4 py-4 flex flex-col gap-3">
+          <a href="#home" class="block py-2 px-2 rounded hover:bg-pink-500/40">
+            Home
+          </a>
+          <a
+            href="#features"
+            class="block py-2 px-2 rounded hover:bg-pink-500/40"
+            >Features</a
+          >
+          <a
+            href="#stories"
+            class="block py-2 px-2 rounded hover:bg-pink-500/40"
+            >Stories</a
+          >
+          <a href="#nearby" class="block py-2 px-2 rounded hover:bg-pink-500/40"
+            >Nearby</a
+          >
+          <a
+            href="login.html"
+            class="block py-2 px-2 rounded bg-white text-pink-600 text-center font-semibold"
+            >Get Started</a
+          >
+        </div>
+      </div>
     </nav>
 
-    <!-- ✅ Hero Section -->
-    <!-- ✅ Hero Section -->
-    <header
-      class="flex-1 flex flex-col md:flex-row items-center justify-between px-8 py-12 bg-gradient-to-r from-pink-200 to-pink-100"
-    >
-      <div class="max-w-lg">
-        <h2
-          id="typingText"
-          class="text-4xl md:text-5xl font-bold text-pink-800 mb-4"
-        ></h2>
-        <p class="text-gray-700 mb-6">
-          Raksha is a Women Safety Web Application providing emergency SOS
-          alerts, secure data storage, and quick contact access.
-        </p>
-        <a
-          href="login.html"
-          class="bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-pink-700 transition"
-          >Get Started</a
-        >
+    <!-- HERO -->
+    <header id="home" class="hero-bg relative hero-overlay">
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-pink-700/40 via-transparent to-white/10"
+      ></div>
+
+      <div
+        class="max-w-6xl mx-auto px-6 py-20 relative z-20 flex flex-col md:flex-row items-center gap-10"
+      >
+        <!-- Left content -->
+        <div class="max-w-xl text-center md:text-left">
+          <h1
+            class="text-4xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-lg"
+          >
+            <span id="typingText" class="block"></span>
+          </h1>
+          <p class="mt-4 text-white/90 text-lg md:text-xl">
+            Raksha — live SOS alerts, nearby emergency services, and trusted
+            help when you need it most.
+          </p>
+
+          <div class="mt-6 flex flex-col sm:flex-row items-center gap-3">
+            <a
+              id="ctaBtn"
+              href="login.html"
+              class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white text-pink-600 font-semibold shadow-lg transform transition hover:scale-105"
+            >
+              <svg
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M12 2v20M5 9l7-7 7 7"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Get Started
+            </a>
+
+            <button
+              id="demoSOS"
+              class="px-5 py-3 rounded-full border border-white/40 text-white/95 hover:bg-white/10 transition"
+            >
+              Demo SOS
+            </button>
+          </div>
+
+          <!-- small stats -->
+          <div class="mt-8 grid grid-cols-3 gap-4 text-white">
+            <div
+              class="bg-white/10 p-4 rounded-xl text-center enter-up"
+              data-enter
+            >
+              <div class="text-2xl stat-number font-bold" data-count="125">
+                0
+              </div>
+              <div class="text-sm text-white/80">SOS Sent</div>
+            </div>
+            <div
+              class="bg-white/10 p-4 rounded-xl text-center enter-up"
+              data-enter
+            >
+              <div class="text-2xl stat-number font-bold" data-count="98">
+                0
+              </div>
+              <div class="text-sm text-white/80">Saved Contacts</div>
+            </div>
+            <div
+              class="bg-white/10 p-4 rounded-xl text-center enter-up"
+              data-enter
+            >
+              <div class="text-2xl stat-number font-bold" data-count="45">
+                0
+              </div>
+              <div class="text-sm text-white/80">Verified Helpers</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right image / illustration -->
+        <div class="w-full max-w-xl">
+          <div class="bg-white/60 rounded-3xl p-4 shadow-2xl">
+            <img
+              src="download.jpeg"
+              alt="Women Safety"
+              class="rounded-2xl w-full object-cover max-h-96"
+            />
+          </div>
+        </div>
       </div>
-      <img
-        src="download.jpeg"
-        alt="Women Safety"
-        class="w-64 md:w-96 mt-8 md:mt-0"
-      />
+      <!-- decorative -->
+      <div class="absolute left-6 bottom-6 opacity-30">
+        <svg width="160" height="160" viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="80" fill="rgba(249,115,22,0.06)" />
+        </svg>
+      </div>
     </header>
 
-    <!-- ✅ Features Section -->
-    <section class="px-8 py-12 bg-white text-center">
-      <h2 class="text-3xl font-bold text-pink-700 mb-10">Our Features</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div
-          class="p-6 bg-pink-100 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105"
-        >
-          <i
-            data-feather="bell"
-            class="mx-auto text-pink-600 w-12 h-12 mb-4"
-          ></i>
-          <h3 class="font-bold text-xl mb-2">Instant SOS</h3>
-          <p class="text-gray-600">
-            Send SOS alerts with your live location instantly.
-          </p>
-        </div>
-        <div
-          class="p-6 bg-pink-100 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105"
-        >
-          <i
-            data-feather="phone"
-            class="mx-auto text-pink-600 w-12 h-12 mb-4"
-          ></i>
-          <h3 class="font-bold text-xl mb-2">Emergency Contacts</h3>
-          <p class="text-gray-600">
-            Store multiple emergency contacts for quick access.
-          </p>
-        </div>
-        <div
-          class="p-6 bg-pink-100 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105"
-        >
-          <i
-            data-feather="shield"
-            class="mx-auto text-pink-600 w-12 h-12 mb-4"
-          ></i>
-          <h3 class="font-bold text-xl mb-2">Secure Data</h3>
-          <p class="text-gray-600">
-            Keep your personal information safe and encrypted.
-          </p>
+    <!-- FEATURES -->
+    <section id="features" class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-pink-600 mb-8 text-center">
+          Our Features
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- card 1 -->
+          <div
+            class="feature-card p-6 bg-pink-50 rounded-2xl shadow hover:shadow-2xl transition transform hover:-translate-y-2"
+          >
+            <div class="flex items-center justify-center">
+              <i data-feather="zap" class="w-12 h-12 text-pink-600"></i>
+            </div>
+            <h3 class="mt-4 font-semibold text-lg">Instant SOS</h3>
+            <p class="mt-2 text-sm text-gray-600">
+              Send immediate alerts with live location to contacts &
+              authorities.
+            </p>
+            <div class="mt-4 text-right">
+              <button class="text-pink-600 font-semibold hover:underline">
+                Learn more →
+              </button>
+            </div>
+          </div>
+
+          <!-- card 2 -->
+          <div
+            class="feature-card p-6 bg-pink-50 rounded-2xl shadow hover:shadow-2xl transition transform hover:-translate-y-2"
+          >
+            <div class="flex items-center justify-center">
+              <i data-feather="shield" class="w-12 h-12 text-pink-600"></i>
+            </div>
+            <h3 class="mt-4 font-semibold text-lg">Secure Vault</h3>
+            <p class="mt-2 text-sm text-gray-600">
+              Encrypted storage for IDs, emergency notes and safe places.
+            </p>
+            <div class="mt-4 text-right">
+              <button class="text-pink-600 font-semibold hover:underline">
+                Learn more →
+              </button>
+            </div>
+          </div>
+
+          <!-- card 3 -->
+          <div
+            class="feature-card p-6 bg-pink-50 rounded-2xl shadow hover:shadow-2xl transition transform hover:-translate-y-2"
+          >
+            <div class="flex items-center justify-center">
+              <i data-feather="map-pin" class="w-12 h-12 text-pink-600"></i>
+            </div>
+            <h3 class="mt-4 font-semibold text-lg">Nearby Help</h3>
+            <p class="mt-2 text-sm text-gray-600">
+              Find nearest police, hospitals and trusted safe spots with one
+              tap.
+            </p>
+            <div class="mt-4 text-right">
+              <button class="text-pink-600 font-semibold hover:underline">
+                Try Nearby →
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ✅ Image Slider -->
-    <section class="px-8 py-12 bg-pink-50">
-      <h2 class="text-3xl font-bold text-center text-pink-700 mb-8">Gallery</h2>
-      <div class="relative max-w-3xl mx-auto">
-        <img
-          src="https://img.freepik.com/free-vector/women-safety-concept-illustration_114360-7770.jpg"
-          class="slide active rounded-2xl shadow-lg w-full"
-        />
-        <img
-          src="https://img.freepik.com/free-vector/woman-using-mobile-sos-service-call_23-2148527029.jpg"
-          class="slide rounded-2xl shadow-lg w-full"
-        />
-        <img
-          src="https://img.freepik.com/free-vector/self-defense-illustration-concept_23-2148530249.jpg"
-          class="slide rounded-2xl shadow-lg w-full"
-        />
+    <!-- STORIES (Slider) -->
+    <section id="stories" class="py-12 bg-pink-50">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-pink-700 text-center mb-6">
+          Real Stories
+        </h2>
 
-        <!-- Controls -->
-        <button
-          id="prevBtn"
-          class="absolute left-0 top-1/2 -translate-y-1/2 bg-pink-600 text-white px-3 py-2 rounded-r"
-        >
-          ⟨
-        </button>
-        <button
-          id="nextBtn"
-          class="absolute right-0 top-1/2 -translate-y-1/2 bg-pink-600 text-white px-3 py-2 rounded-l"
-        >
-          ⟩
-        </button>
+        <div class="relative max-w-4xl mx-auto">
+          <div
+            id="storiesWrapper"
+            class="overflow-hidden rounded-2xl shadow-lg"
+          >
+            <div
+              class="flex transition-transform duration-600"
+              id="storiesTrack"
+            >
+              <!-- Slides -->
+              <figure
+                class="w-full min-w-full p-6 bg-white/90 flex gap-6 story-slide"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=124b9b427b9db0a4b7f9d4f6b6d55898"
+                  class="w-48 h-32 object-cover rounded-lg shadow"
+                  alt="story photo"
+                />
+                <figcaption>
+                  <p class="font-semibold">Saved in minutes</p>
+                  <p class="mt-2 text-sm text-gray-600">
+                    "SOS sent and timely help reached — I'm forever grateful."
+                  </p>
+                  <p class="mt-2 text-xs text-gray-400">— Meera, Pune</p>
+                </figcaption>
+              </figure>
+
+              <figure
+                class="w-full min-w-full p-6 bg-white/90 flex gap-6 story-slide"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1524504388940-05b6c7b7d2c1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3e86b32867e9e2b6f4b2d3a5b4b8e2e1"
+                  class="w-48 h-32 object-cover rounded-lg shadow"
+                  alt="story photo"
+                />
+                <figcaption>
+                  <p class="font-semibold">Connected with authorities</p>
+                  <p class="mt-2 text-sm text-gray-600">
+                    "The nearby help map showed the closest station and I called
+                    them quickly."
+                  </p>
+                  <p class="mt-2 text-xs text-gray-400">— Anjali, Delhi</p>
+                </figcaption>
+              </figure>
+
+              <figure
+                class="w-full min-w-full p-6 bg-white/90 flex gap-6 story-slide"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3fa5a8e6b6d7c4b8b5e3a6c2a1d4b1c7"
+                  class="w-48 h-32 object-cover rounded-lg shadow"
+                  alt="story photo"
+                />
+                <figcaption>
+                  <p class="font-semibold">Peace of mind</p>
+                  <p class="mt-2 text-sm text-gray-600">
+                    "I saved emergency contacts and now feel safer walking
+                    alone."
+                  </p>
+                  <p class="mt-2 text-xs text-gray-400">— Riya, Mumbai</p>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <!-- controls -->
+          <div class="mt-4 flex items-center justify-center gap-3">
+            <button
+              id="storyPrev"
+              class="px-3 py-2 rounded bg-pink-600 text-white"
+            >
+              Prev
+            </button>
+            <div id="storyDots" class="flex items-center gap-2"></div>
+            <button
+              id="storyNext"
+              class="px-3 py-2 rounded bg-pink-600 text-white"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ✅ Footer -->
-    <footer class="bg-pink-700 text-white p-6 text-center mt-auto">
-      <p>© 2025 Raksha - Women Safety App | Designed with ❤️ for Hackathon</p>
-      <div class="flex justify-center space-x-6 mt-2">
-        <a href="#" class="hover:text-yellow-300">About</a>
-        <a href="#" class="hover:text-yellow-300">Contact</a>
-        <a href="#" class="hover:text-yellow-300">Privacy Policy</a>
+    <!-- NEARBY POLICE / HOSPITALS -->
+    <section id="nearby" class="py-12 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-pink-700 mb-6">
+          Nearby Police Stations & Hospitals
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="p-6 rounded-2xl bg-pink-50 shadow">
+            <p class="text-sm text-gray-600 mb-4">
+              Click to detect your location and find nearby police stations &
+              hospitals.
+            </p>
+
+            <div class="flex gap-3">
+              <button
+                id="detectBtn"
+                class="px-4 py-3 rounded bg-pink-600 text-white font-semibold hover:scale-105 transition"
+              >
+                Detect my location
+              </button>
+              <button
+                id="refreshNearby"
+                class="px-4 py-3 rounded border border-pink-200 hover:bg-pink-50 transition"
+              >
+                Refresh
+              </button>
+            </div>
+
+            <div id="nearbyStatus" class="mt-4 text-sm text-gray-500">
+              No location detected yet.
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white shadow">
+            <div class="mb-4 flex items-center justify-between">
+              <h3 class="font-semibold">Results</h3>
+              <div class="text-xs text-gray-400">Sorted by distance</div>
+            </div>
+            <div id="nearbyList" class="space-y-3 text-sm text-gray-700">
+              <!-- populated by JS -->
+              <div class="text-gray-400">No results yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY (simple slider) -->
+    <section class="py-12 bg-pink-50">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-pink-700 mb-6 text-center">
+          Gallery
+        </h2>
+        <div class="relative max-w-3xl mx-auto">
+          <img
+            id="galleryImg"
+            src="https://img.freepik.com/free-vector/women-safety-concept-illustration_114360-7770.jpg"
+            class="rounded-2xl shadow-lg w-full object-cover max-h-96"
+            alt="gallery"
+          />
+          <button
+            id="gPrev"
+            class="absolute left-2 top-1/2 -translate-y-1/2 bg-pink-600 text-white rounded-full p-2 shadow"
+          >
+            ⟨
+          </button>
+          <button
+            id="gNext"
+            class="absolute right-2 top-1/2 -translate-y-1/2 bg-pink-600 text-white rounded-full p-2 shadow"
+          >
+            ⟩
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-pink-700 text-white">
+      <div class="max-w-6xl mx-auto px-6 py-10">
+        <div
+          class="flex flex-col md:flex-row md:justify-between gap-6 items-start"
+        >
+          <div>
+            <h4 class="font-bold text-xl">Raksha</h4>
+            <p class="mt-2 text-sm text-white/80 max-w-md">
+              A women safety platform built with love — SOS, nearby help and
+              secure vaults.
+            </p>
+            <div class="mt-4 flex items-center gap-3">
+              <a
+                href="#"
+                class="social p-2 rounded hover:text-white/90"
+                aria-label="facebook"
+              >
+                <i data-feather="facebook"></i>
+              </a>
+              <a
+                href="#"
+                class="social p-2 rounded hover:text-white/90"
+                aria-label="instagram"
+              >
+                <i data-feather="instagram"></i>
+              </a>
+              <a
+                href="#"
+                class="social p-2 rounded hover:text-white/90"
+                aria-label="twitter"
+              >
+                <i data-feather="twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="social p-2 rounded hover:text-white/90"
+                aria-label="youtube"
+              >
+                <i data-feather="youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="helpline text-sm">
+              Emergency Helpline: <strong>+91 112 233 4455</strong>
+            </div>
+            <div class="mt-6 text-xs text-white/80">
+              © 2025 Raksha • Designed with ❤️ for Hackathons
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
 
+    <!-- Feather activate -->
     <script>
       feather.replace();
+    </script>
 
-      // Mobile menu toggle
+    <!-- App JS: typing, menu, sliders, stats, geolocation + Overpass -->
+    <script>
+      /* ----------------------------
+         Hamburger / mobile menu
+         ---------------------------- */
       const menuBtn = document.getElementById("menuBtn");
       const mobileMenu = document.getElementById("mobileMenu");
+      const hamburger = document.getElementById("hamburger");
+
+      let menuOpen = false;
       menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
+        menuOpen = !menuOpen;
+        hamburger.classList.toggle("active", menuOpen);
+        if (menuOpen) {
+          mobileMenu.style.scale = "1";
+          mobileMenu.style.transformOrigin = "top";
+          mobileMenu.classList.remove("scale-y-0");
+          mobileMenu.classList.add("scale-y-100");
+          mobileMenu.style.maxHeight = "500px";
+          mobileMenu.style.transition = "transform 280ms ease";
+          mobileMenu.style.transform = "scaleY(1)";
+          mobileMenu.style.padding = "";
+        } else {
+          mobileMenu.style.transform = "scaleY(0)";
+        }
       });
 
-      // Slider
-      const slides = document.querySelectorAll(".slide");
-      let index = 0;
+      /* ----------------------------
+         Typing effect for hero
+         ---------------------------- */
+      const typingElement = document.getElementById("typingText");
+      const phrases = [
+        "Your Safety, Our Priority",
+        "SOS. Nearby Help. Peace of Mind.",
+        "Quick Alerts. Trusted Help.",
+      ];
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let deleting = false;
 
-      function showSlide(i) {
-        slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+      function stepTyping() {
+        const current = phrases[phraseIndex];
+        if (!deleting) {
+          typingElement.textContent = current.slice(0, charIndex + 1);
+          charIndex++;
+          if (charIndex === current.length) {
+            deleting = true;
+            setTimeout(stepTyping, 1400);
+            return;
+          }
+        } else {
+          typingElement.textContent = current.slice(0, charIndex - 1);
+          charIndex--;
+          if (charIndex === 0) {
+            deleting = false;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+          }
+        }
+        setTimeout(stepTyping, deleting ? 40 : 80);
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        stepTyping();
+      });
+
+      /* ----------------------------
+         Stats counter when scrolled into view
+         ---------------------------- */
+      const statEls = document.querySelectorAll(".stat-number");
+      let statsDone = false;
+      function animateStats() {
+        if (statsDone) return;
+        statEls.forEach((el) => {
+          const to = +el.dataset.count || 0;
+          let start = 0;
+          const dur = 1200;
+          const startT = performance.now();
+          function tick(now) {
+            const prog = Math.min(1, (now - startT) / dur);
+            el.textContent = Math.floor(prog * to);
+            if (prog < 1) requestAnimationFrame(tick);
+            else el.textContent = to;
+          }
+          requestAnimationFrame(tick);
+        });
+        statsDone = true;
       }
 
-      document.getElementById("prevBtn").addEventListener("click", () => {
-        index = (index - 1 + slides.length) % slides.length;
-        showSlide(index);
-      });
+      // trigger when visible
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              animateStats();
+              document.querySelectorAll("[data-enter]").forEach((el, idx) => {
+                setTimeout(() => el.classList.add("show"), 100 * idx);
+              });
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      document
+        .querySelectorAll(".stat-number")
+        .forEach((el) => observer.observe(el));
 
-      document.getElementById("nextBtn").addEventListener("click", () => {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-      });
+      /* ----------------------------
+         Stories slider (simple)
+         ---------------------------- */
+      const track = document.getElementById("storiesTrack");
+      const slides = Array.from(track.children);
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+      const prevBtn = document.getElementById("storyPrev");
+      const nextBtn = document.getElementById("storyNext");
+      const dots = document.getElementById("storyDots");
 
-      // Auto slideshow
+      function createDots() {
+        for (let i = 0; i < totalSlides; i++) {
+          const d = document.createElement("button");
+          d.className = "w-3 h-3 rounded-full bg-pink-300/60";
+          d.addEventListener("click", () => goTo(i));
+          dots.appendChild(d);
+        }
+        updateDots();
+      }
+      function updateDots() {
+        Array.from(dots.children).forEach((d, i) => {
+          d.style.opacity = i === currentSlide ? "1" : "0.5";
+          d.style.transform = i === currentSlide ? "scale(1.2)" : "scale(1)";
+        });
+      }
+      function goTo(i) {
+        currentSlide = (i + totalSlides) % totalSlides;
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        updateDots();
+      }
+      prevBtn.addEventListener("click", () => goTo(currentSlide - 1));
+      nextBtn.addEventListener("click", () => goTo(currentSlide + 1));
+      createDots();
+      // auto play
       setInterval(() => {
-        index = (index + 1) % slides.length;
-        showSlide(index);
-      }, 4000);
+        goTo(currentSlide + 1);
+      }, 6000);
 
-      const text = "Your Safety, Our Priority";
-      const typingElement = document.getElementById("typingText");
-      let i = 0;
+      /* ----------------------------
+         Simple gallery cycling
+         ---------------------------- */
+      const galleryImgs = [
+        "https://img.freepik.com/free-vector/women-safety-concept-illustration_114360-7770.jpg",
+        "https://img.freepik.com/free-vector/woman-using-mobile-sos-service-call_23-2148527029.jpg",
+        "https://img.freepik.com/free-vector/self-defense-illustration-concept_23-2148530249.jpg",
+      ];
+      let gIndex = 0;
+      const gEl = document.getElementById("galleryImg");
+      document.getElementById("gNext").addEventListener("click", () => {
+        gIndex = (gIndex + 1) % galleryImgs.length;
+        gEl.src = galleryImgs[gIndex];
+      });
+      document.getElementById("gPrev").addEventListener("click", () => {
+        gIndex = (gIndex - 1 + galleryImgs.length) % galleryImgs.length;
+        gEl.src = galleryImgs[gIndex];
+      });
 
-      function typeEffect() {
-        if (i < text.length) {
-          typingElement.innerHTML += text.charAt(i);
-          i++;
-          setTimeout(typeEffect, 100); // typing speed (ms)
+      /* ----------------------------
+         Nearby: Geolocation + Overpass API (OpenStreetMap)
+         ---------------------------- */
+      const detectBtn = document.getElementById("detectBtn");
+      const refreshBtn = document.getElementById("refreshNearby");
+      const nearbyList = document.getElementById("nearbyList");
+      const nearbyStatus = document.getElementById("nearbyStatus");
+
+      async function findNearby(lat, lon, radius = 4000) {
+        nearbyStatus.textContent = "Searching nearby police & hospitals...";
+        // Overpass QL - find nodes/ways/relations with amenity=police or amenity=hospital
+        const query = `
+          [out:json][timeout:10];
+          (
+            node(around:${radius},${lat},${lon})[amenity=police];
+            way(around:${radius},${lat},${lon})[amenity=police];
+            node(around:${radius},${lat},${lon})[amenity=hospital];
+            way(around:${radius},${lat},${lon})[amenity=hospital];
+          );
+          out center tags;
+        `;
+        try {
+          const url = "https://overpass-api.de/api/interpreter";
+          const res = await fetch(url, {
+            method: "POST",
+            body: query,
+            headers: { "Content-Type": "text/plain" },
+          });
+          const data = await res.json();
+          if (!data.elements || data.elements.length === 0) {
+            nearbyList.innerHTML =
+              "<div class='text-gray-400'>No nearby stations/hospitals found within 4 km.</div>";
+            nearbyStatus.textContent = "Done — no results.";
+            return;
+          }
+          // compute distances and sort
+          const nodes = data.elements
+            .map((el) => {
+              const lat2 = el.lat ?? (el.center && el.center.lat);
+              const lon2 = el.lon ?? (el.center && el.center.lon);
+              const name =
+                (el.tags && (el.tags.name || el.tags["operator"])) || "Unknown";
+              const type = el.tags && (el.tags.amenity || "place");
+              const dist = distanceMeters(lat, lon, lat2, lon2);
+              return {
+                name,
+                type,
+                dist,
+                lat: lat2,
+                lon: lon2,
+                tags: el.tags || {},
+              };
+            })
+            .filter((n) => n.lat && n.lon);
+
+          nodes.sort((a, b) => a.dist - b.dist);
+
+          nearbyList.innerHTML = "";
+          nodes.slice(0, 12).forEach((n) => {
+            const el = document.createElement("div");
+            el.className =
+              "p-3 rounded border border-pink-50 flex justify-between items-center";
+            el.innerHTML = `
+              <div>
+                <div class="text-sm font-semibold">${escapeHtml(n.name)}</div>
+                <div class="text-xs text-gray-500">${escapeHtml(
+                  capitalize(n.type)
+                )} • ${(n.dist / 1000).toFixed(2)} km</div>
+              </div>
+              <div class="text-right">
+                <a href="https://www.google.com/maps/search/?api=1&query=${
+                  n.lat
+                },${
+              n.lon
+            }" target="_blank" class="text-pink-600 text-sm hover:underline">Open map</a>
+              </div>
+            `;
+            nearbyList.appendChild(el);
+          });
+          nearbyStatus.textContent = `Found ${
+            nodes.length
+          } nearby places (showing closest ${Math.min(nodes.length, 12)}).`;
+        } catch (err) {
+          console.error(err);
+          nearbyStatus.textContent =
+            "Error searching nearby: " + (err.message || err);
+          nearbyList.innerHTML =
+            "<div class='text-red-400'>There was an error fetching nearby places.</div>";
         }
       }
 
-      window.onload = typeEffect; // start typing on page load
+      function distanceMeters(lat1, lon1, lat2, lon2) {
+        // haversine
+        const toRad = (d) => (d * Math.PI) / 180;
+        const R = 6371000;
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+      }
+
+      function escapeHtml(s) {
+        return String(s || "").replace(/[&<>"']/g, function (m) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          }[m];
+        });
+      }
+      function capitalize(s) {
+        if (!s) return s;
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
+
+      function detectAndSearch() {
+        if (!navigator.geolocation) {
+          nearbyStatus.textContent =
+            "Geolocation not supported by your browser.";
+          return;
+        }
+        nearbyStatus.textContent = "Requesting location permission...";
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            nearbyStatus.textContent = `Location detected: ${lat.toFixed(
+              4
+            )}, ${lon.toFixed(4)} — searching...`;
+            findNearby(lat, lon, 4000);
+            // show quick map link
+            const mapLink = document.createElement("div");
+            mapLink.className = "mt-3 text-xs text-gray-500";
+            mapLink.innerHTML = `View on map: <a href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}" target="_blank" class="text-pink-600 underline">Open Maps</a>`;
+            const existing = document.querySelector("#nearby .user-map-link");
+            if (existing) existing.remove();
+            const parent = document.querySelector(
+              "#nearby .p-6.rounded-2xl.bg-pink-50"
+            );
+            mapLink.classList.add("user-map-link");
+            parent.appendChild(mapLink);
+          },
+          (err) => {
+            console.error(err);
+            nearbyStatus.textContent =
+              "Permission denied or location unavailable.";
+          },
+          { enableHighAccuracy: true, maximumAge: 60000, timeout: 10000 }
+        );
+      }
+
+      detectBtn.addEventListener("click", detectAndSearch);
+      refreshBtn.addEventListener("click", detectAndSearch);
+
+      /* ----------------------------
+         Misc: Demo SOS button (visual)
+         ---------------------------- */
+      document.getElementById("demoSOS").addEventListener("click", () => {
+        const old = document.getElementById("ctaBtn");
+        old.classList.add("animate-pulse");
+        setTimeout(() => old.classList.remove("animate-pulse"), 1600);
+        alert(
+          "Demo SOS: This is a demo action. In the real app this would send your location to chosen contacts."
+        );
+      });
+
+      /* ----------------------------
+         Extra: Small back-to-top show/hide (kept from original)
+         ---------------------------- */
+      const backToTop = document.createElement("button");
+      backToTop.id = "backToTop";
+      backToTop.className =
+        "fixed bottom-6 right-6 bg-pink-600 text-white p-3 rounded-full shadow-lg hidden";
+      backToTop.textContent = "↑";
+      document.body.appendChild(backToTop);
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) backToTop.classList.remove("hidden");
+        else backToTop.classList.add("hidden");
+      });
+      backToTop.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      );
+
+      /* ----------------------------
+         Small accessibility: scroll to top on brand click
+         ---------------------------- */
+      document.getElementById("brandBtn").addEventListener("click", (e) => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      /* ----------------------------
+         Accessibility & progressive enhancement
+         ---------------------------- */
+      // ensure nav link active underline if same page
+      document.querySelectorAll(".nav-link").forEach((a) => {
+        try {
+          if (
+            a.getAttribute("href") === window.location.hash ||
+            a.getAttribute("href") === window.location.pathname.split("/").pop()
+          ) {
+            a.classList.add("underline", "font-bold");
+          }
+        } catch (e) {}
+      });
+
+      /* ----------------------------
+         Small: reveal animations for features on scroll
+         ---------------------------- */
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((ent) => {
+            if (ent.isIntersecting) {
+              ent.target.classList.add("enter-up", "show");
+              revealObserver.unobserve(ent.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+
+      document
+        .querySelectorAll(".feature-card")
+        .forEach((c) => revealObserver.observe(c));
+      // SOS Button click
+      document.getElementById("sosBtn").addEventListener("click", async () => {
+        const location = "Test Location"; // Later replace with geolocation
+        const response = await fetch("http://localhost:5000/sos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: "Demo User", location }),
+        });
+        const data = await response.json();
+        alert(data.message || "SOS Sent!");
+      });
     </script>
   </body>
 </html>

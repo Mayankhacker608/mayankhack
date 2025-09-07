@@ -5,72 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raksha - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+    </style>
   </head>
-  <body class="bg-pink-50 min-h-screen flex flex-col">
+  <body
+    class="bg-gradient-to-r from-pink-100 via-pink-50 to-pink-100 min-h-screen flex flex-col"
+  >
     <!-- Navbar -->
-    <nav class="bg-pink-600 text-white p-4 flex justify-between">
+    <nav class="bg-pink-600 text-white p-4 flex justify-between shadow-md">
       <h1 class="font-bold text-xl">🚨 Raksha</h1>
-      <ul class="flex space-x-6">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="profile.html">Profile</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="login.html">Login</a></li>
+      <ul class="flex space-x-6 font-medium">
+        <li><a href="index.html" class="hover:underline">Home</a></li>
+        <li><a href="profile.html" class="hover:underline">Profile</a></li>
+        <li><a href="dashboard.html" class="hover:underline">Dashboard</a></li>
+        <li>
+          <a href="login.html" class="hover:underline font-bold">Login</a>
+        </li>
       </ul>
     </nav>
 
-    <!-- Login/Register Form -->
-    <main class="flex-1 flex items-center justify-center">
-      <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
-        <h2 class="text-xl font-bold mb-4 text-center">🔑 Login / Register</h2>
+    <!-- Login/Register Card -->
+    <main class="flex-1 flex items-center justify-center px-4">
+      <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-center text-pink-600">
+          🔑 Login / Register
+        </h2>
 
-        <form id="loginForm" class="space-y-3">
+        <!-- Tabs -->
+        <div class="flex justify-around mb-6">
+          <button
+            id="tabLogin"
+            class="font-medium text-pink-600 border-b-2 border-pink-600 pb-1 w-1/2"
+          >
+            Login
+          </button>
+          <button id="tabRegister" class="font-medium text-gray-400 pb-1 w-1/2">
+            Register
+          </button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-4">
           <input
             type="email"
             id="loginEmail"
             placeholder="Email"
-            class="w-full border p-2 rounded"
+            class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-600"
             required
           />
-          <input
-            type="password"
-            id="loginPass"
-            placeholder="Password"
-            class="w-full border p-2 rounded"
-            required
-          />
+
+          <div class="relative">
+            <input
+              type="password"
+              id="loginPass"
+              placeholder="Password"
+              class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-600"
+              required
+            />
+            <button
+              type="button"
+              id="togglePass"
+              class="absolute right-3 top-3 text-gray-500"
+            >
+              👁️
+            </button>
+          </div>
+
+          <div class="flex justify-between items-center text-sm">
+            <label><input type="checkbox" class="mr-1" /> Remember Me</label>
+            <a href="#" class="text-pink-600 hover:underline"
+              >Forgot Password?</a
+            >
+          </div>
+
           <button
             type="submit"
-            class="bg-green-600 text-white w-full py-2 rounded"
+            class="bg-pink-600 text-white w-full py-3 rounded-lg shadow hover:bg-pink-700 transition"
           >
             Login
           </button>
         </form>
 
-        <form id="registerForm" class="space-y-3 mt-4">
+        <!-- Register Form -->
+        <form id="registerForm" class="space-y-4 hidden">
           <input
             type="text"
             id="regName"
             placeholder="Full Name"
-            class="w-full border p-2 rounded"
+            class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-600"
             required
           />
           <input
             type="email"
             id="regEmail"
             placeholder="Email"
-            class="w-full border p-2 rounded"
+            class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-600"
             required
           />
-          <input
-            type="password"
-            id="regPass"
-            placeholder="Password"
-            class="w-full border p-2 rounded"
-            required
-          />
+
+          <div class="relative">
+            <input
+              type="password"
+              id="regPass"
+              placeholder="Password"
+              class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-600"
+              required
+            />
+            <button
+              type="button"
+              id="toggleRegPass"
+              class="absolute right-3 top-3 text-gray-500"
+            >
+              👁️
+            </button>
+          </div>
+
           <button
             type="submit"
-            class="bg-pink-600 text-white w-full py-2 rounded"
+            class="bg-green-600 text-white w-full py-3 rounded-lg shadow hover:bg-green-700 transition"
           >
             Register
           </button>
@@ -79,30 +138,65 @@
     </main>
 
     <script>
+      // Toggle Login/Register Tabs
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const tabLogin = document.getElementById("tabLogin");
+      const tabRegister = document.getElementById("tabRegister");
+
+      tabLogin.addEventListener("click", () => {
+        loginForm.classList.remove("hidden");
+        registerForm.classList.add("hidden");
+        tabLogin.classList.add("text-pink-600", "border-b-2");
+        tabLogin.classList.remove("text-gray-400");
+        tabRegister.classList.remove("text-pink-600", "border-b-2");
+        tabRegister.classList.add("text-gray-400");
+      });
+
+      tabRegister.addEventListener("click", () => {
+        registerForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        tabRegister.classList.add("text-pink-600", "border-b-2");
+        tabRegister.classList.remove("text-gray-400");
+        tabLogin.classList.remove("text-pink-600", "border-b-2");
+        tabLogin.classList.add("text-gray-400");
+      });
+
+      // Toggle password visibility
+      const togglePass = document.getElementById("togglePass");
+      togglePass.addEventListener("click", () => {
+        const input = document.getElementById("loginPass");
+        input.type = input.type === "password" ? "text" : "password";
+      });
+
+      const toggleRegPass = document.getElementById("toggleRegPass");
+      toggleRegPass.addEventListener("click", () => {
+        const input = document.getElementById("regPass");
+        input.type = input.type === "password" ? "text" : "password";
+      });
+
       // Register
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", (e) => {
-          e.preventDefault();
-          const user = {
-            name: document.getElementById("regName").value,
-            email: document.getElementById("regEmail").value,
-            pass: document.getElementById("regPass").value,
-          };
-          localStorage.setItem("user", JSON.stringify(user));
-          alert("✅ Registered! Now login.");
-        });
+      registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const user = {
+          name: document.getElementById("regName").value,
+          email: document.getElementById("regEmail").value,
+          pass: document.getElementById("regPass").value,
+        };
+        localStorage.setItem("user", JSON.stringify(user));
+        alert("✅ Registered! Now login.");
+        tabLogin.click();
+      });
 
       // Login
-      document.getElementById("loginForm").addEventListener("submit", (e) => {
+      loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const email = document.getElementById("loginEmail").value;
         const pass = document.getElementById("loginPass").value;
         const user = JSON.parse(localStorage.getItem("user"));
-
         if (user && user.email === email && user.pass === pass) {
           alert("✅ Login successful!");
-          window.location.href = "profile.html";
+          window.location.href = "dashboard.html";
         } else {
           alert("❌ Invalid credentials");
         }
