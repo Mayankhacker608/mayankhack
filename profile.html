@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raksha - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-pink-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-pink-600 text-white p-4 flex justify-between">
+      <h1 class="font-bold text-xl">🚨 Raksha</h1>
+      <ul class="flex space-x-6">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- Profile Form -->
+    <main class="flex-1 flex items-center justify-center">
+      <form
+        id="profileForm"
+        class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-lg space-y-3"
+      >
+        <h2 class="text-xl font-bold mb-4 text-center">👩 Profile Setup</h2>
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Full Name"
+          class="w-full border p-2 rounded"
+          required
+        />
+        <input
+          type="text"
+          id="fatherName"
+          placeholder="Father's Name"
+          class="w-full border p-2 rounded"
+          required
+        />
+        <input
+          type="text"
+          id="bloodGroup"
+          placeholder="Blood Group (e.g. O+)"
+          class="w-full border p-2 rounded"
+          required
+        />
+        <textarea
+          id="address"
+          placeholder="Full Address"
+          class="w-full border p-2 rounded"
+          required
+        ></textarea>
+
+        <h3 class="font-bold">Emergency Contacts</h3>
+        <input
+          type="text"
+          id="contact1"
+          placeholder="Contact 1"
+          class="w-full border p-2 rounded"
+          required
+        />
+        <input
+          type="text"
+          id="contact2"
+          placeholder="Contact 2"
+          class="w-full border p-2 rounded"
+        />
+        <input
+          type="text"
+          id="contact3"
+          placeholder="Contact 3"
+          class="w-full border p-2 rounded"
+        />
+
+        <button
+          type="submit"
+          class="bg-green-600 text-white w-full py-2 rounded"
+        >
+          Save Profile
+        </button>
+      </form>
+    </main>
+
+    <script>
+      document.getElementById("profileForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const profile = {
+          fullName: document.getElementById("fullName").value,
+          fatherName: document.getElementById("fatherName").value,
+          bloodGroup: document.getElementById("bloodGroup").value,
+          address: document.getElementById("address").value,
+          contacts: [
+            document.getElementById("contact1").value,
+            document.getElementById("contact2").value,
+            document.getElementById("contact3").value,
+          ].filter((c) => c !== ""),
+        };
+        localStorage.setItem("profile", JSON.stringify(profile));
+        alert("✅ Profile saved!");
+        window.location.href = "dashboard.html";
+      });
+    </script>
+  </body>
+</html>

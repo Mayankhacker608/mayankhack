@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raksha - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-pink-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-pink-600 text-white p-4 flex justify-between">
+      <h1 class="font-bold text-xl">🚨 Raksha</h1>
+      <ul class="flex space-x-6">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- Login/Register Form -->
+    <main class="flex-1 flex items-center justify-center">
+      <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
+        <h2 class="text-xl font-bold mb-4 text-center">🔑 Login / Register</h2>
+
+        <form id="loginForm" class="space-y-3">
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Email"
+            class="w-full border p-2 rounded"
+            required
+          />
+          <input
+            type="password"
+            id="loginPass"
+            placeholder="Password"
+            class="w-full border p-2 rounded"
+            required
+          />
+          <button
+            type="submit"
+            class="bg-green-600 text-white w-full py-2 rounded"
+          >
+            Login
+          </button>
+        </form>
+
+        <form id="registerForm" class="space-y-3 mt-4">
+          <input
+            type="text"
+            id="regName"
+            placeholder="Full Name"
+            class="w-full border p-2 rounded"
+            required
+          />
+          <input
+            type="email"
+            id="regEmail"
+            placeholder="Email"
+            class="w-full border p-2 rounded"
+            required
+          />
+          <input
+            type="password"
+            id="regPass"
+            placeholder="Password"
+            class="w-full border p-2 rounded"
+            required
+          />
+          <button
+            type="submit"
+            class="bg-pink-600 text-white w-full py-2 rounded"
+          >
+            Register
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      // Register
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", (e) => {
+          e.preventDefault();
+          const user = {
+            name: document.getElementById("regName").value,
+            email: document.getElementById("regEmail").value,
+            pass: document.getElementById("regPass").value,
+          };
+          localStorage.setItem("user", JSON.stringify(user));
+          alert("✅ Registered! Now login.");
+        });
+
+      // Login
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value;
+        const pass = document.getElementById("loginPass").value;
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (user && user.email === email && user.pass === pass) {
+          alert("✅ Login successful!");
+          window.location.href = "profile.html";
+        } else {
+          alert("❌ Invalid credentials");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raksha - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+      /* Slider animation */
+      .slide {
+        display: none;
+      }
+      .slide.active {
+        display: block;
+        animation: fade 1s ease-in-out;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-pink-50 flex flex-col min-h-screen">
+    <!-- ✅ Navbar -->
+    <nav
+      class="bg-pink-600 text-white p-4 flex justify-between items-center relative"
+    >
+      <h1 class="font-bold text-2xl">🚨 Raksha</h1>
+      <ul class="hidden md:flex space-x-6 font-medium">
+        <li>
+          <a href="index.html" class="hover:text-yellow-300 transition">Home</a>
+        </li>
+        <li>
+          <a href="profile.html" class="hover:text-yellow-300 transition"
+            >Profile</a
+          >
+        </li>
+        <li>
+          <a href="dashboard.html" class="hover:text-yellow-300 transition"
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="login.html" class="hover:text-yellow-300 transition"
+            >Login</a
+          >
+        </li>
+      </ul>
+      <!-- Mobile Menu Button -->
+      <button id="menuBtn" class="md:hidden">
+        <i data-feather="menu"></i>
+      </button>
+      <!-- Mobile Dropdown -->
+      <ul
+        id="mobileMenu"
+        class="hidden absolute top-16 left-0 w-full bg-pink-700 text-white flex-col space-y-4 p-4 md:hidden"
+      >
+        <li><a href="index.html">Home</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- ✅ Hero Section -->
+    <!-- ✅ Hero Section -->
+    <header
+      class="flex-1 flex flex-col md:flex-row items-center justify-between px-8 py-12 bg-gradient-to-r from-pink-200 to-pink-100"
+    >
+      <div class="max-w-lg">
+        <h2
+          id="typingText"
+          class="text-4xl md:text-5xl font-bold text-pink-800 mb-4"
+        ></h2>
+        <p class="text-gray-700 mb-6">
+          Raksha is a Women Safety Web Application providing emergency SOS
+          alerts, secure data storage, and quick contact access.
+        </p>
+        <a
+          href="login.html"
+          class="bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-pink-700 transition"
+          >Get Started</a
+        >
+      </div>
+      <img
+        src="download.jpeg"
+        alt="Women Safety"
+        class="w-64 md:w-96 mt-8 md:mt-0"
+      />
+    </header>
+
+    <!-- ✅ Features Section -->
+    <section class="px-8 py-12 bg-white text-center">
+      <h2 class="text-3xl font-bold text-pink-700 mb-10">Our Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          class="p-6 bg-pink-100 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105"
+        >
+          <i
+            data-feather="bell"
+            class="mx-auto text-pink-600 w-12 h-12 mb-4"
+          ></i>
+          <h3 class="font-bold text-xl mb-2">Instant SOS</h3>
+          <p class="text-gray-600">
+            Send SOS alerts with your live location instantly.
+          </p>
+        </div>
+        <div
+          class="p-6 bg-pink-100 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105"
+        >
+          <i
+            data-feather="phone"
+            class="mx-auto text-pink-600 w-12 h-12 mb-4"
+          ></i>
+          <h3 class="font-bold text-xl mb-2">Emergency Contacts</h3>
+          <p class="text-gray-600">
+            Store multiple emergency contacts for quick access.
+          </p>
+        </div>
+        <div
+          class="p-6 bg-pink-100 rounded-2xl shadow hover:shadow-xl transition transform hover:scale-105"
+        >
+          <i
+            data-feather="shield"
+            class="mx-auto text-pink-600 w-12 h-12 mb-4"
+          ></i>
+          <h3 class="font-bold text-xl mb-2">Secure Data</h3>
+          <p class="text-gray-600">
+            Keep your personal information safe and encrypted.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ Image Slider -->
+    <section class="px-8 py-12 bg-pink-50">
+      <h2 class="text-3xl font-bold text-center text-pink-700 mb-8">Gallery</h2>
+      <div class="relative max-w-3xl mx-auto">
+        <img
+          src="https://img.freepik.com/free-vector/women-safety-concept-illustration_114360-7770.jpg"
+          class="slide active rounded-2xl shadow-lg w-full"
+        />
+        <img
+          src="https://img.freepik.com/free-vector/woman-using-mobile-sos-service-call_23-2148527029.jpg"
+          class="slide rounded-2xl shadow-lg w-full"
+        />
+        <img
+          src="https://img.freepik.com/free-vector/self-defense-illustration-concept_23-2148530249.jpg"
+          class="slide rounded-2xl shadow-lg w-full"
+        />
+
+        <!-- Controls -->
+        <button
+          id="prevBtn"
+          class="absolute left-0 top-1/2 -translate-y-1/2 bg-pink-600 text-white px-3 py-2 rounded-r"
+        >
+          ⟨
+        </button>
+        <button
+          id="nextBtn"
+          class="absolute right-0 top-1/2 -translate-y-1/2 bg-pink-600 text-white px-3 py-2 rounded-l"
+        >
+          ⟩
+        </button>
+      </div>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="bg-pink-700 text-white p-6 text-center mt-auto">
+      <p>© 2025 Raksha - Women Safety App | Designed with ❤️ for Hackathon</p>
+      <div class="flex justify-center space-x-6 mt-2">
+        <a href="#" class="hover:text-yellow-300">About</a>
+        <a href="#" class="hover:text-yellow-300">Contact</a>
+        <a href="#" class="hover:text-yellow-300">Privacy Policy</a>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+
+      // Mobile menu toggle
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Slider
+      const slides = document.querySelectorAll(".slide");
+      let index = 0;
+
+      function showSlide(i) {
+        slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+      }
+
+      document.getElementById("prevBtn").addEventListener("click", () => {
+        index = (index - 1 + slides.length) % slides.length;
+        showSlide(index);
+      });
+
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+      });
+
+      // Auto slideshow
+      setInterval(() => {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+      }, 4000);
+
+      const text = "Your Safety, Our Priority";
+      const typingElement = document.getElementById("typingText");
+      let i = 0;
+
+      function typeEffect() {
+        if (i < text.length) {
+          typingElement.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typeEffect, 100); // typing speed (ms)
+        }
+      }
+
+      window.onload = typeEffect; // start typing on page load
+    </script>
+  </body>
+</html>
