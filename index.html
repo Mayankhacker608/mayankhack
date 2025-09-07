@@ -149,11 +149,12 @@
   <body class="bg-pink-50 text-gray-800 min-h-screen flex flex-col">
     <!-- NAVBAR -->
     <nav
-      class="sticky top-0 z-50 bg-gradient-to-r from-pink-600 to-pink-500 text-white shadow-lg"
+      class="md:sticky md:top-0 z-50 bg-gradient-to-r from-pink-600 to-pink-500 text-white shadow-lg"
       aria-label="Primary"
     >
       <div class="max-w-6xl mx-auto px-4">
         <div class="flex items-center justify-between h-16">
+          <!-- Brand -->
           <div class="flex items-center gap-4">
             <button
               id="brandBtn"
@@ -162,6 +163,8 @@
               <span class="text-2xl">🚨</span>
               <span class="hidden sm:inline">Raksha</span>
             </button>
+
+            <!-- Desktop menu -->
             <div class="hidden md:flex gap-6 ml-6 font-medium">
               <a href="#home" class="nav-link hover:underline">Home</a>
               <a href="#features" class="nav-link hover:underline">Features</a>
@@ -170,7 +173,7 @@
             </div>
           </div>
 
-          <!-- Desktop CTA + helpline -->
+          <!-- Desktop CTA + helpline + profile -->
           <div class="hidden md:flex items-center gap-4">
             <div
               class="text-sm text-white/90 helpline px-3 py-2 rounded-md bg-pink-700/50"
@@ -182,28 +185,67 @@
               class="px-4 py-2 rounded-full bg-white text-pink-600 font-semibold hover:scale-105 transition shadow"
               >Get Started</a
             >
+
+            <!-- Profile dropdown -->
+            <div class="relative">
+              <button
+                id="profileBtn"
+                class="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-pink-700/50 transition"
+              >
+                <img
+                  src="https://i.pravatar.cc/30"
+                  alt="Profile"
+                  class="w-8 h-8 rounded-full"
+                />
+                <span class="hidden lg:inline">Mayank</span>
+              </button>
+              <div
+                id="profileMenu"
+                class="hidden absolute right-0 mt-2 w-40 bg-white text-pink-600 rounded-md shadow-lg py-2"
+              >
+                <a href="#" class="block px-4 py-2 hover:bg-pink-100"
+                  >Dashboard</a
+                >
+                <a href="#" class="block px-4 py-2 hover:bg-pink-100"
+                  >Settings</a
+                >
+                <a href="#" class="block px-4 py-2 hover:bg-pink-100">Logout</a>
+              </div>
+            </div>
           </div>
 
           <!-- Mobile buttons -->
-          <div class="md:hidden flex items-center">
+          <div class="md:hidden flex items-center gap-2">
+            <!-- Profile button for mobile -->
+            <button id="mobileProfileBtn" class="p-2">
+              <img
+                src="https://i.pravatar.cc/30"
+                alt="Profile"
+                class="w-8 h-8 rounded-full"
+              />
+            </button>
+
+            <!-- Hamburger -->
             <button id="menuBtn" aria-label="Toggle menu" class="p-2">
               <div class="hamburger" id="hamburger">
-                <span></span><span></span><span></span>
+                <span class="block w-6 h-0.5 bg-white mb-1"></span>
+                <span class="block w-6 h-0.5 bg-white mb-1"></span>
+                <span class="block w-6 h-0.5 bg-white"></span>
               </div>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Mobile menu (animated) -->
+      <!-- Mobile menu -->
       <div
         id="mobileMenu"
-        class="md:hidden bg-pink-600/80 backdrop-blur-sm transform-gpu scale-y-0 origin-top transition-all duration-300"
+        class="md:hidden bg-pink-600/80 backdrop-blur-sm transform-gpu scale-y-0 origin-top transition-all duration-300 overflow-hidden max-h-0"
       >
         <div class="px-4 py-4 flex flex-col gap-3">
-          <a href="#home" class="block py-2 px-2 rounded hover:bg-pink-500/40">
-            Home
-          </a>
+          <a href="#home" class="block py-2 px-2 rounded hover:bg-pink-500/40"
+            >Home</a
+          >
           <a
             href="#features"
             class="block py-2 px-2 rounded hover:bg-pink-500/40"
@@ -223,6 +265,16 @@
             >Get Started</a
           >
         </div>
+      </div>
+
+      <!-- Mobile profile menu -->
+      <div
+        id="mobileProfileMenu"
+        class="md:hidden hidden bg-white text-pink-600 rounded-md shadow-lg py-2 mt-2 mx-4"
+      >
+        <a href="#" class="block px-4 py-2 hover:bg-pink-100">Dashboard</a>
+        <a href="#" class="block px-4 py-2 hover:bg-pink-100">Settings</a>
+        <a href="#" class="block px-4 py-2 hover:bg-pink-100">Logout</a>
       </div>
     </nav>
 
@@ -632,24 +684,33 @@
          ---------------------------- */
       const menuBtn = document.getElementById("menuBtn");
       const mobileMenu = document.getElementById("mobileMenu");
-      const hamburger = document.getElementById("hamburger");
 
-      let menuOpen = false;
       menuBtn.addEventListener("click", () => {
-        menuOpen = !menuOpen;
-        hamburger.classList.toggle("active", menuOpen);
-        if (menuOpen) {
-          mobileMenu.style.scale = "1";
-          mobileMenu.style.transformOrigin = "top";
-          mobileMenu.classList.remove("scale-y-0");
-          mobileMenu.classList.add("scale-y-100");
-          mobileMenu.style.maxHeight = "500px";
-          mobileMenu.style.transition = "transform 280ms ease";
-          mobileMenu.style.transform = "scaleY(1)";
-          mobileMenu.style.padding = "";
+        if (
+          mobileMenu.style.maxHeight &&
+          mobileMenu.style.maxHeight !== "0px"
+        ) {
+          // Close menu
+          mobileMenu.style.maxHeight = "0";
         } else {
-          mobileMenu.style.transform = "scaleY(0)";
+          // Open menu
+          mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
         }
+      });
+
+      // Profile dropdowns
+      const profileBtn = document.getElementById("profileBtn");
+      const profileMenu = document.getElementById("profileMenu");
+      if (profileBtn) {
+        profileBtn.addEventListener("click", () => {
+          profileMenu.classList.toggle("hidden");
+        });
+      }
+
+      const mobileProfileBtn = document.getElementById("mobileProfileBtn");
+      const mobileProfileMenu = document.getElementById("mobileProfileMenu");
+      mobileProfileBtn.addEventListener("click", () => {
+        mobileProfileMenu.classList.toggle("hidden");
       });
 
       /* ----------------------------

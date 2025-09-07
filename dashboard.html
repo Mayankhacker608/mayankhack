@@ -40,35 +40,70 @@
     </style>
   </head>
   <body class="bg-pink-50 min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-pink-600 text-white p-4 flex justify-between items-center">
-      <h1 class="font-bold text-xl">🚨 Raksha</h1>
-      <ul class="flex space-x-4">
-        <li>
+    <!-- Responsive Navbar -->
+    <nav class="bg-pink-600 text-white relative z-50" aria-label="Primary">
+      <div class="max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <!-- Brand -->
+          <button
+            id="brandBtn"
+            class="text-xl font-extrabold flex items-center gap-2 outline-none"
+          >
+            <span class="text-2xl">🚨</span>
+            <span class="hidden sm:inline">Raksha</span>
+          </button>
+
+          <!-- Desktop Links -->
+          <div class="hidden md:flex gap-6 font-medium">
+            <a href="index.html" class="hover:underline">Home</a>
+            <a href="profile.html" class="hover:underline">Profile</a>
+            <a href="dashboard.html" class="hover:underline font-bold underline"
+              >Dashboard</a
+            >
+            <a href="login.html" class="hover:underline">Login</a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden flex items-center">
+            <button id="menuBtn" aria-label="Toggle menu" class="p-2">
+              <div class="hamburger flex flex-col gap-1">
+                <span class="block w-6 h-0.5 bg-white"></span>
+                <span class="block w-6 h-0.5 bg-white"></span>
+                <span class="block w-6 h-0.5 bg-white"></span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu (fixed & overlay) -->
+      <div
+        id="mobileMenu"
+        class="md:hidden fixed top-16 left-0 w-full bg-pink-600/90 backdrop-blur-sm transform-gpu scale-y-0 origin-top transition-all duration-300"
+      >
+        <div class="px-4 py-4 flex flex-col gap-3">
           <a
             href="index.html"
-            class="hover:underline hover:text-gray-200 transition"
+            class="block py-2 px-2 rounded hover:bg-pink-500/40"
             >Home</a
           >
-        </li>
-        <li>
           <a
             href="profile.html"
-            class="hover:underline hover:text-gray-200 transition"
+            class="block py-2 px-2 rounded hover:bg-pink-500/40"
             >Profile</a
           >
-        </li>
-        <li>
-          <a href="dashboard.html" class="font-bold underline">Dashboard</a>
-        </li>
-        <li>
+          <a
+            href="dashboard.html"
+            class="block py-2 px-2 rounded bg-pink-500/60 font-bold"
+            >Dashboard</a
+          >
           <a
             href="login.html"
-            class="hover:underline hover:text-gray-200 transition"
+            class="block py-2 px-2 rounded hover:bg-pink-500/40"
             >Login</a
           >
-        </li>
-      </ul>
+        </div>
+      </div>
     </nav>
 
     <!-- Dashboard -->
@@ -128,6 +163,17 @@
     ></script>
 
     <script>
+      // Mobile menu toggle
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+      let menuOpen = false;
+      menuBtn.addEventListener("click", () => {
+        menuOpen = !menuOpen;
+        mobileMenu.classList.toggle("scale-y-100", menuOpen);
+        mobileMenu.classList.toggle("scale-y-0", !menuOpen);
+      });
+
+      // Profile & dashboard logic
       const profile = JSON.parse(localStorage.getItem("profile")) || {
         fullName: "Jane Doe",
         bloodGroup: "O+",
@@ -170,13 +216,10 @@
         }
       }
 
-      // Initialize user's location
       getLocation(updateLocation);
-
-      // Auto-update map every 10s
       setInterval(() => getLocation(updateLocation), 10000);
 
-      // SOS button logic with hold
+      // SOS button logic
       const sosBtn = document.getElementById("sosBtn");
       let sosTimeout;
       sosBtn.addEventListener("mousedown", () => {
@@ -203,7 +246,6 @@
         });
       }
 
-      // Quick action buttons
       document.getElementById("callPolice").onclick = () =>
         (window.location.href = "tel:112");
       document.getElementById("callContact1").onclick = () => {
