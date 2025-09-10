@@ -39,28 +39,30 @@
     </style>
   </head>
   <body class="bg-pink-50 min-h-screen flex flex-col">
-    <!-- ✅ Navbar -->
+    <!-- Navbar -->
     <nav class="bg-pink-600 text-white relative z-50">
       <div
         class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16"
       >
-        <span class="text-xl font-extrabold flex items-center gap-2"
-          ><span class="text-2xl">🚨</span> Raksha</span
-        >
+        <span class="text-xl font-extrabold flex items-center gap-2">
+          <span class="text-2xl">🚨</span> Raksha
+        </span>
         <div class="hidden md:flex gap-6 font-medium">
-          <a href="index.html">Home</a><a href="profile.html">Profile</a
-          ><a href="dashboard.html" class="font-bold underline">Dashboard</a
-          ><a href="login.html">Login</a>
+          <a href="index.html">Home</a>
+          <a href="profile.html">Profile</a>
+          <a href="dashboard.html" class="font-bold underline">Dashboard</a>
+          <a href="login.html">Login</a>
         </div>
       </div>
     </nav>
 
-    <!-- ✅ Dashboard -->
+    <!-- Dashboard -->
     <main
       class="flex-1 flex flex-col items-center justify-center space-y-6 p-4"
     >
       <h2 class="text-2xl font-bold mb-4">🚨 SOS Dashboard</h2>
 
+      <!-- Profile Info -->
       <div
         id="userInfo"
         class="w-full max-w-lg bg-white p-4 rounded-2xl shadow text-gray-700"
@@ -74,7 +76,8 @@
         🚨 SEND SOS
       </button>
 
-      <div class="flex flex-wrap justify-center space-x-4 mt-4">
+      <!-- Quick Actions -->
+      <div class="flex flex-wrap justify-center space-x-2 mt-4 gap-2">
         <button
           id="callPolice"
           class="bg-blue-600 text-white px-4 py-2 rounded shadow"
@@ -95,9 +98,25 @@
         </button>
       </div>
 
+      <!-- Status -->
       <p id="status" class="mt-4 text-gray-700 font-medium"></p>
+
+      <!-- Map -->
       <div id="map" class="w-full max-w-lg h-64 rounded-2xl shadow mt-4"></div>
 
+      <!-- Women Safety Info -->
+      <div class="w-full max-w-lg bg-white p-4 rounded-2xl shadow mt-6">
+        <h3 class="text-lg font-semibold mb-2">🛡️ Women Safety Tips</h3>
+        <ul class="list-disc list-inside text-gray-700 space-y-1">
+          <li>Always share your location with a trusted contact.</li>
+          <li>Use well-lit and populated routes at night.</li>
+          <li>Keep emergency numbers saved and easily accessible.</li>
+          <li>Trust your instincts and avoid unsafe areas.</li>
+          <li>Use the SOS button in case of danger.</li>
+        </ul>
+      </div>
+
+      <!-- Gesture SOS -->
       <h3 class="text-lg font-semibold mt-6">✋ Gesture SOS (Raise Hand)</h3>
       <video
         id="gestureCam"
@@ -117,7 +136,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
-      /* 🔹 Firebase Init */
+      /* Firebase Init */
       const firebaseConfig = {
         apiKey: "YOUR_KEY",
         projectId: "YOUR_PROJECT_ID",
@@ -125,7 +144,7 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
 
-      /* 👤 Profile Data */
+      /* Profile Data */
       const profile = JSON.parse(localStorage.getItem("profile")) || {
         fullName: "Jane Doe",
         email: "demo@email.com",
@@ -137,16 +156,17 @@
         contacts: ["+911234567890"],
         sos: { sms: true, email: false, app: true, message: "Help me!" },
       };
-      const statusEl = document.getElementById("status");
 
+      const statusEl = document.getElementById("status");
       document.getElementById("userInfo").innerHTML = `
-        <b>Name:</b> ${profile.fullName}<br><b>Phone:</b> ${profile.phone}<br>
+        <b>Name:</b> ${profile.fullName}<br>
+        <b>Phone:</b> ${profile.phone}<br>
         <b>Contacts:</b><br>${profile.contacts
           .map((c) => "📞 " + c)
           .join("<br>")}
       `;
 
-      /* 🗺️ Map Setup */
+      /* Map Setup */
       let map = L.map("map").setView([20.5937, 78.9629], 5);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
         map
@@ -159,9 +179,8 @@
         else marker = L.marker([lat, lon]).addTo(map);
       }
       function showHotspots() {
-        if (sosHistory.length > 0) {
+        if (sosHistory.length > 0)
           L.heatLayer(sosHistory, { radius: 25 }).addTo(map);
-        }
       }
       function getLocation(cb) {
         navigator.geolocation.getCurrentPosition(
@@ -173,17 +192,22 @@
       setInterval(() => getLocation(updateLocation), 10000);
       showHotspots();
 
-      /* 🚨 SOS */
+      /* SOS Button - Mobile + Desktop */
       const sosBtn = document.getElementById("sosBtn");
       let sosTimeout;
-      sosBtn.addEventListener("mousedown", () => {
-        statusEl.innerText = "Hold 3s to send SOS...";
-        sosTimeout = setTimeout(sendSOS, 3000);
-      });
-      sosBtn.addEventListener("mouseup", () => {
-        clearTimeout(sosTimeout);
-        statusEl.innerText = "";
-      });
+
+      ["mousedown", "touchstart"].forEach((ev) =>
+        sosBtn.addEventListener(ev, () => {
+          statusEl.innerText = "Hold 3s to send SOS...";
+          sosTimeout = setTimeout(sendSOS, 3000);
+        })
+      );
+      ["mouseup", "touchend", "touchcancel"].forEach((ev) =>
+        sosBtn.addEventListener(ev, () => {
+          clearTimeout(sosTimeout);
+          statusEl.innerText = "";
+        })
+      );
 
       async function sendSOS() {
         getLocation(async (lat, lon) => {
@@ -192,38 +216,38 @@
             ` My location: https://maps.google.com/?q=${lat},${lon}`;
           statusEl.innerText = "📍 SOS triggered...";
           if (navigator.vibrate) navigator.vibrate(200);
-
           updateLocation(lat, lon);
           sosHistory.push([lat, lon, 1]);
           localStorage.setItem("sosHistory", JSON.stringify(sosHistory));
           showHotspots();
 
-          // 🔹 Firestore log
+          // Firestore log
           try {
-            await db
-              .collection("sos_events")
-              .add({
-                user: profile.fullName,
-                phone: profile.phone,
-                lat,
-                lon,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                message: msg,
-              });
+            await db.collection("sos_events").add({
+              user: profile.fullName,
+              phone: profile.phone,
+              lat,
+              lon,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              message: msg,
+            });
           } catch (e) {
             console.error("Firestore log error", e);
           }
 
-          // 🔹 WhatsApp Alert (each contact)
+          // WhatsApp Alert
           profile.contacts.forEach((c) => {
-            const phone = c.replace(/\D/g, ""); // numbers only
-            window.open(
-              `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,
-              "_blank"
-            );
+            const phone = c.replace(/\D/g, "");
+            const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(
+              msg
+            )}`;
+            const a = document.createElement("a");
+            a.href = waLink;
+            a.target = "_blank";
+            a.click();
           });
 
-          // 🔹 SMS API
+          // SMS API fallback
           try {
             const resp = await fetch("/api/send-sms", {
               method: "POST",
@@ -243,7 +267,7 @@
         });
       }
 
-      /* ✋ Gesture SOS */
+      /* Gesture SOS */
       async function startGestureSOS() {
         const video = document.getElementById("gestureCam");
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -264,7 +288,7 @@
       }
       startGestureSOS();
 
-      /* 🎤 Voice Trigger */
+      /* Voice Trigger */
       if (
         "webkitSpeechRecognition" in window ||
         "SpeechRecognition" in window
@@ -275,9 +299,7 @@
         rec.onresult = (e) => {
           const txt =
             e.results[e.results.length - 1][0].transcript.toLowerCase();
-          if (txt.includes("help") || txt.includes("bachao")) {
-            sendSOS();
-          }
+          if (txt.includes("help") || txt.includes("bachao")) sendSOS();
         };
         rec.start();
       }
