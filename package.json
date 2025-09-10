@@ -1,0 +1,11 @@
+{
+  "name": "raksha-sos",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "twilio": "^4.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
